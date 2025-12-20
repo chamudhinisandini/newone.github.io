@@ -124,7 +124,7 @@
 
 <section class="comment-section" id="commentSection">
   <h2>Say Something About Me</h2>
-  <form class="comment-form" onsubmit="addComment(event)">
+  <form class="comment-form" id="commentForm">
     <input type="text" id="name" placeholder="Your Name" required />
     <textarea id="comment" rows="4" placeholder="Write your thoughts..." required></textarea>
     <button type="submit">Submit</button>
@@ -142,21 +142,36 @@ events.forEach(e=>observer.observe(e));
 document.getElementById('themeToggle').onclick=()=>{document.body.classList.toggle('light');}
 document.getElementById('smileBtn').onclick=()=>{alert('Hey cutie! 😘 Reach me at chamudhinisandini@gmail.com');}
 
-function addComment(e){
+// Comment form localStorage
+const form = document.getElementById('commentForm');
+const commentList = document.getElementById('commentList');
+
+function loadComments(){
+  const saved = JSON.parse(localStorage.getItem('comments') || '[]');
+  commentList.innerHTML = '';
+  saved.forEach(c => {
+    const div = document.createElement('div');
+    div.style.padding='10px';
+    div.style.marginTop='10px';
+    div.style.background='rgba(255,255,255,0.1)';
+    div.style.borderRadius='12px';
+    div.innerHTML=`<b>${c.name}:</b> ${c.comment}`;
+    commentList.appendChild(div);
+  });
+}
+
+form.onsubmit=function(e){
   e.preventDefault();
   const name=document.getElementById('name').value;
   const comment=document.getElementById('comment').value;
-  const div=document.createElement('div');
-  div.style.padding='10px';
-  div.style.marginTop='10px';
-  div.style.background='rgba(255,255,255,0.1)';
-  div.style.borderRadius='12px';
-  div.innerHTML=`<b>${name}:</b> ${comment}`;
-  document.getElementById('commentList').prepend(div);
-  document.getElementById('name').value='';
-  document.getElementById('comment').value='';
-  div.scrollIntoView({behavior:'smooth'});
+  const saved = JSON.parse(localStorage.getItem('comments') || '[]');
+  saved.push({name, comment});
+  localStorage.setItem('comments', JSON.stringify(saved));
+  loadComments();
+  form.reset();
 }
+
+loadComments();
 
 // Smooth parallax background effect
 const bg = document.body;
