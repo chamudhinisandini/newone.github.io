@@ -5,6 +5,284 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Sandini Chamudhini</title>
 <style>
+  .cursor-glow{
+  position:fixed;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  pointer-events:none;
+  background:radial-gradient(circle,#ff5fa2,transparent);
+  transform:translate(-50%,-50%);
+  z-index:9999;
+}
+
+  .prompt-search{
+  width:100%;
+  padding:14px 18px;
+  border-radius:14px;
+  border:none;
+  outline:none;
+  font-size:1rem;
+  margin-bottom:25px;
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  backdrop-filter:blur(10px);
+}
+  section::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at top left,rgba(255,255,255,.12),transparent 60%);
+  opacity:0;
+  transition:.4s;
+  pointer-events:none;
+}
+
+section:hover::before{
+  opacity:1;
+}
+  .music.playing{
+  animation:pulse 1.6s infinite;
+}
+
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(255,95,162,.6)}
+  70%{box-shadow:0 0 0 14px rgba(255,95,162,0)}
+  100%{box-shadow:0 0 0 0 rgba(255,95,162,0)}
+}
+  .progress{
+  position:fixed;
+  top:0;
+  left:0;
+  height:3px;
+  width:0;
+  background:linear-gradient(90deg,#ff5fa2,#ff9fcf);
+  z-index:3000;
+}
+  .gallery img{
+  position:relative;
+}
+
+.gallery img::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.3),transparent);
+  opacity:0;
+  transition:.4s;
+}
+
+.gallery img:hover{
+  transform:scale(1.1);
+}
+
+.gallery img:hover::after{
+  opacity:1;
+}
+  .ai-card{
+  opacity:0;
+  transform:translateY(40px) scale(.95);
+  animation:cardIn .8s ease forwards;
+}
+
+.ai-card:nth-child(1){animation-delay:.1s}
+.ai-card:nth-child(2){animation-delay:.2s}
+.ai-card:nth-child(3){animation-delay:.3s}
+.ai-card:nth-child(4){animation-delay:.4s}
+.ai-card:nth-child(5){animation-delay:.5s}
+.ai-card:nth-child(6){animation-delay:.6s}
+.ai-card:nth-child(7){animation-delay:.7s}
+.ai-card:nth-child(8){animation-delay:.8s}
+.ai-card:nth-child(9){animation-delay:.9s}
+
+
+@keyframes cardIn{
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+  .overlay{
+  animation:bgShift 12s ease-in-out infinite alternate;
+}
+
+@keyframes bgShift{
+  0%{filter:hue-rotate(0deg)}
+  100%{filter:hue-rotate(12deg)}
+}
+  .nav a{
+  position:relative;
+}
+
+.nav a::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:-6px;
+  width:0;
+  height:2px;
+  background:#ff5fa2;
+  transition:.3s;
+  transform:translateX(-50%);
+}
+
+.nav a:hover::after{
+  width:70%;
+}
+
+.nav a{
+  position:relative;
+}
+
+.nav a::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:-6px;
+  width:0;
+  height:2px;
+  background:#ff5fa2;
+  transition:.3s;
+  transform:translateX(-50%);
+}
+
+.nav a:hover::after{
+  width:70%;
+}
+  .ai-card{
+  position:relative;
+}
+
+.ai-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:20px;
+  background:radial-gradient(
+    600px circle at var(--x) var(--y),
+    rgba(255,95,162,.18),
+    transparent 40%
+  );
+  opacity:0;
+  transition:.3s;
+  pointer-events:none;
+}
+
+.ai-card:hover::before{
+  opacity:1;
+}
+
+  .copy-btn{
+  overflow:hidden;
+}
+
+.copy-btn::after{
+  content:"";
+  position:absolute;
+  width:120%;
+  height:120%;
+  top:50%;
+  left:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.5),transparent 60%);
+  transform:translate(-50%,-50%) scale(0);
+  transition:.5s;
+}
+
+.copy-btn:active::after{
+  transform:translate(-50%,-50%) scale(1);
+}
+  @keyframes floatSoft {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+
+.ai-card img{
+  animation: floatSoft 6s ease-in-out infinite;
+}
+
+.ai-card:nth-child(2) img{animation-duration:7s}
+.ai-card:nth-child(3) img{animation-duration:8s}
+.ai-card:nth-child(4) img{animation-duration:6.5s}
+.ai-card:nth-child(5) img{animation-duration:7.5s}
+.ai-card:nth-child(6) img{animation-duration:8.5s}
+.ai-card:nth-child(7) img{animation-duration:6.2s}
+.ai-card:nth-child(8) img{animation-duration:7.2s}
+.ai-card:nth-child(9) img{animation-duration:8.2s}
+
+  section h2{
+  position:relative;
+}
+
+section.show h2::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-10px;
+  width:100%;
+  height:12px;
+  background:radial-gradient(circle,rgba(255,95,162,.35),transparent 70%);
+  filter:blur(14px);
+}
+
+  img{
+  background:linear-gradient(
+    100deg,
+    rgba(255,255,255,.08) 40%,
+    rgba(255,255,255,.25) 50%,
+    rgba(255,255,255,.08) 60%
+  );
+  background-size:200% 100%;
+  animation:shimmer 1.4s infinite;
+}
+
+img[src]{
+  animation:none;
+}
+
+@keyframes shimmer{
+  to{background-position:-200% 0;}
+}
+
+  html{
+  scroll-behavior:smooth;
+}
+  .toast{
+  position:fixed;
+  bottom:30px;
+  right:30px;
+  background:#ff5fa2;
+  color:#111;
+  padding:12px 18px;
+  border-radius:999px;
+  font-weight:600;
+  opacity:0;
+  transform:translateY(20px);
+  transition:.4s;
+  z-index:2000;
+}
+.toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+  .ai-card{
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.ai-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:20px;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.25),transparent);
+  opacity:0;
+  transition:.4s;
+  pointer-events:none;
+}
+
+.ai-card:hover::after{
+  opacity:1;
+}
+
 * { box-sizing: border-box; scroll-behavior: smooth; }
 body {
   margin: 0;
@@ -127,9 +405,55 @@ body.light .divider{background:linear-gradient(90deg,transparent,rgba(0,0,0,.25)
 
 /* Shortened prompt display */
 .ai-card p{overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical}
+/* ===== SAFE DYNAMIC BACKGROUND ===== */
+
+.bg-animated{
+  position:fixed;
+  inset:0;
+  z-index:-10;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,95,162,.35), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(124,124,255,.35), transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(255,209,102,.25), transparent 45%);
+  animation:bgMove 22s ease-in-out infinite;
+}
+
+@keyframes bgMove{
+  0%{
+    background-position:20% 30%,80% 70%,50% 50%;
+  }
+  50%{
+    background-position:30% 40%,70% 60%,55% 45%;
+  }
+  100%{
+    background-position:20% 30%,80% 70%,50% 50%;
+  }
+}
+
+/* Ensure main content always visible */
+body > *{
+  position:relative;
+  z-index:1;
+}
+
+/* Keep overlay above background */
+.overlay{
+  z-index:-1;
+}
 </style>
 </head>
 <body>
+  <div class="bg-animated"></div>
+
+  <!-- Background Glow Effects -->
+<div class="bg-effects">
+  <span class="glow g1"></span>
+  <span class="glow g2"></span>
+  <span class="glow g3"></span>
+</div>
+  <div class="cursor-glow"></div>
+  <div class="toast" id="toast">Prompt copied ✨</div>
 <div class="loader"><span></span></div>
 
 <nav class="nav">
@@ -252,6 +576,66 @@ body.light .divider{background:linear-gradient(90deg,transparent,rgba(0,0,0,.25)
 <div class="modal" id="modal"><img src=""><div></div></div>
 
 <script>
+  let startX=0;
+document.querySelectorAll('.ai-card').forEach(card=>{
+  card.addEventListener('touchstart',e=>{
+    startX=e.touches[0].clientX;
+  });
+
+  card.addEventListener('touchend',e=>{
+    const endX=e.changedTouches[0].clientX;
+    if(startX-endX>80){
+      card.style.transform="translateX(-120%)";
+      setTimeout(()=>card.remove(),300);
+    }
+  });
+});
+  const glow=document.querySelector('.cursor-glow');
+document.addEventListener('mousemove',e=>{
+  glow.style.left=e.clientX+'px';
+  glow.style.top=e.clientY+'px';
+});
+  let lastPrompt = "";
+
+document.querySelectorAll('.copy-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    lastPrompt = btn.dataset.full;
+  });
+});
+
+document.addEventListener('keydown',e=>{
+  if(e.ctrlKey && e.key === 'c' && lastPrompt){
+    navigator.clipboard.writeText(lastPrompt);
+  }
+});
+  window.addEventListener('scroll',()=>{
+  const h = document.documentElement;
+  const scrolled = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('progress').style.width = scrolled + '%';
+});
+  document.querySelectorAll('.ai-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const rect = card.getBoundingClientRect();
+    card.style.setProperty('--x', e.clientX - rect.left + 'px');
+    card.style.setProperty('--y', e.clientY - rect.top + 'px');
+  });
+});
+  document.querySelectorAll('.ai-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = (y - centerY) / 20;
+    const rotateY = (centerX - x) / 20;
+    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+  });
+  card.addEventListener('mouseleave',()=>{
+    card.style.transform = 'rotateX(0) rotateY(0) scale(1)';
+  });
+});
+
 // scroll reveal
 const sections=document.querySelectorAll('section');
 const events=document.querySelectorAll('.event');
@@ -285,13 +669,18 @@ window.addEventListener('mousemove',e=>{
   cursor.style.top=e.clientY-70+'px';
 });
 
-// AI Prompt Copy
+// AI Prompt Copy (Enhanced – Toast feedback)
+const toast = document.getElementById('toast');
+
 document.querySelectorAll('.copy-btn').forEach(btn=>{
   btn.addEventListener('click',()=>{
-    const fullPrompt = btn.dataset.full;
-    navigator.clipboard.writeText(fullPrompt).then(()=>alert('Full prompt copied!'));
+    navigator.clipboard.writeText(btn.dataset.full).then(()=>{
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'),2000);
+    });
   });
 });
+
 
 // AI Prompt Modal
 const modal=document.getElementById('modal');
@@ -303,5 +692,6 @@ document.querySelectorAll('.ai-card img').forEach(img=>{
 });
 modal.addEventListener('click',()=>{modal.classList.remove('show')});
 </script>
+<div class="progress" id="progress"></div>
 </body>
 </html>
