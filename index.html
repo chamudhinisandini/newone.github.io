@@ -15,7 +15,6 @@
   transform:translate(-50%,-50%);
   z-index:9999;
 }
-
   .prompt-search{
   width:100%;
   padding:14px 18px;
@@ -397,7 +396,6 @@ body.light .divider{background:linear-gradient(90deg,transparent,rgba(0,0,0,.25)
 .ai-card:hover{transform:scale(1.05);box-shadow:0 10px 30px rgba(0,0,0,.3)}
 .copy-btn{position:absolute;top:12px;right:12px;padding:6px 10px;border:none;background:#ff5fa2;color:#fff;border-radius:8px;cursor:pointer;font-size:12px;opacity:0;transition:.3s}
 .ai-card:hover .copy-btn{opacity:1}
-
 /* Modal for zoom */
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.3s;z-index:1000}
 .modal img{max-width:90%;max-height:90%;border-radius:20px}
@@ -418,7 +416,6 @@ body.light .divider{background:linear-gradient(90deg,transparent,rgba(0,0,0,.25)
     radial-gradient(circle at 50% 50%, rgba(255,209,102,.25), transparent 45%);
   animation:bgMove 22s ease-in-out infinite;
 }
-
 @keyframes bgMove{
   0%{
     background-position:20% 30%,80% 70%,50% 50%;
@@ -436,16 +433,49 @@ body > *{
   position:relative;
   z-index:1;
 }
-
 /* Keep overlay above background */
 .overlay{
   z-index:-1;
 }
+/* AI Prompts Responsive */
+@media (max-width: 768px) {
+  .ai-section {
+    grid-template-columns: 1fr;  /* stack cards vertically */
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .ai-card {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .ai-card img {
+    width: 100%;
+    height: auto;
+  }
+
+  .copy-btn {
+    top: 8px;
+    right: 8px;
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+
+  section#ai-prompts {
+    padding: 20px 16px;
+  }
+
+  .ai-section .ai-card p {
+    -webkit-line-clamp: 3; /* shorten text for mobile */
+  }
+}
 </style>
 </head>
 <body>
+  <!-- Animated Background Layer -->
+<div class="bg-animated-layer"></div>
   <div class="bg-animated"></div>
-
   <!-- Background Glow Effects -->
 <div class="bg-effects">
   <span class="glow g1"></span>
@@ -640,6 +670,12 @@ document.addEventListener('keydown',e=>{
 const sections=document.querySelectorAll('section');
 const events=document.querySelectorAll('.event');
 const observer=new IntersectionObserver(entries=>{
+  sections.forEach(s=>{
+  s.style.transition='opacity 0.9s ease, transform 0.9s ease';
+});
+events.forEach(e=>{
+  e.style.transition='opacity 0.9s ease, transform 0.9s ease';
+});
   entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')});
 },{threshold:.2});
 sections.forEach(s=>observer.observe(s));
@@ -668,7 +704,20 @@ window.addEventListener('mousemove',e=>{
   cursor.style.left=e.clientX-70+'px';
   cursor.style.top=e.clientY-70+'px';
 });
-
+// Enhanced cursor trail
+const trail = [];
+for(let i=0;i<5;i++){
+  const t=document.createElement('div');
+  t.className='cursor-glow';
+  t.style.opacity=(0.2*i)+'';
+  document.body.appendChild(t);
+  trail.push(t);
+}
+document.addEventListener('mousemove', e => {
+  trail.forEach((t,i)=>{
+    setTimeout(()=>{t.style.left=e.clientX+'px';t.style.top=e.clientY+'px';}, i*40);
+  });
+});
 // AI Prompt Copy (Enhanced – Toast feedback)
 const toast = document.getElementById('toast');
 
@@ -691,6 +740,16 @@ document.querySelectorAll('.ai-card img').forEach(img=>{
   });
 });
 modal.addEventListener('click',()=>{modal.classList.remove('show')});
+// Ensure smooth scroll works on mobile
+document.querySelectorAll('.nav a').forEach(link=>{
+  link.addEventListener('click', e=>{
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if(target){
+      target.scrollIntoView({behavior:'smooth'});
+    }
+  });
+});
 </script>
 <div class="progress" id="progress"></div>
 </body>
